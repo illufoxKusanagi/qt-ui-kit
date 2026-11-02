@@ -3,7 +3,6 @@
 ![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)
 ![Qt 6 / Qt 5](https://img.shields.io/badge/Qt-6%20%7C%205-41CD52.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)
-![Shadcn-Inspired](https://img.shields.io/badge/Design-Shadcn%20UI-9b44f9.svg)
 
 A modern, zero-dependency **Shadcn-inspired component library for Qt 6 and Qt 5 Widgets** written in clean C++17.
 
@@ -153,9 +152,9 @@ target_link_libraries(MyDesktopApp PRIVATE ui_kit)
 
 ### CMake Options
 
-| Option | Default | Description |
-| :--- | :--- | :--- |
-| `UI_KIT_BUILD_DEMO` | `ON` | Builds the standalone `ui_kit_demo` showcase executable (`demo/main.cpp`). Note: `ui::DemoPage` (`demo/demo_page.cpp`) is always compiled into `ui_kit` so it can be embedded in host apps regardless of this flag. |
+| Option              | Default | Description                                                                                                                                                                                                         |
+| :------------------ | :------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `UI_KIT_BUILD_DEMO` | `ON`    | Builds the standalone `ui_kit_demo` showcase executable (`demo/main.cpp`). Note: `ui::DemoPage` (`demo/demo_page.cpp`) is always compiled into `ui_kit` so it can be embedded in host apps regardless of this flag. |
 
 ### Header Include Conventions
 
@@ -168,12 +167,12 @@ target_link_libraries(MyDesktopApp PRIVATE ui_kit)
 #### 1. QSS Arrow Icons (`Select`, `NumberInput`, `DecimalInput`)
 Qt stylesheets (`QComboBox::down-arrow`, `QSpinBox::up-arrow`, `QSpinBox::down-arrow`) cannot dynamically recolor inline SVGs via QSS alone, so `ui::Select`, `ui::NumberInput`, and `ui::DecimalInput` reference 4 vector arrow paths from your application's `.qrc` resource file depending on the active theme mode:
 
-| Resource Path | Active Theme Mode | Used By |
-| :--- | :--- | :--- |
-| `:/icons/icons/arrow-up.svg` | Dark (`isDark() == true`) | `ui::NumberInput`, `ui::DecimalInput` up-step arrow (light stroke) |
-| `:/icons/icons/arrow-up-black.svg` | Light (`isDark() == false`) | `ui::NumberInput`, `ui::DecimalInput` up-step arrow (dark stroke) |
-| `:/icons/icons/arrow-down.svg` | Dark (`isDark() == true`) | `ui::Select`, `ui::NumberInput`, `ui::DecimalInput` down arrow (light stroke) |
-| `:/icons/icons/arrow-down-black.svg` | Light (`isDark() == false`) | `ui::Select`, `ui::NumberInput`, `ui::DecimalInput` down arrow (dark stroke) |
+| Resource Path                        | Active Theme Mode           | Used By                                                                       |
+| :----------------------------------- | :-------------------------- | :---------------------------------------------------------------------------- |
+| `:/icons/icons/arrow-up.svg`         | Dark (`isDark() == true`)   | `ui::NumberInput`, `ui::DecimalInput` up-step arrow (light stroke)            |
+| `:/icons/icons/arrow-up-black.svg`   | Light (`isDark() == false`) | `ui::NumberInput`, `ui::DecimalInput` up-step arrow (dark stroke)             |
+| `:/icons/icons/arrow-down.svg`       | Dark (`isDark() == true`)   | `ui::Select`, `ui::NumberInput`, `ui::DecimalInput` down arrow (light stroke) |
+| `:/icons/icons/arrow-down-black.svg` | Light (`isDark() == false`) | `ui::Select`, `ui::NumberInput`, `ui::DecimalInput` down arrow (dark stroke)  |
 
 Ensure your application's `.qrc` file mounts these four files under `<qresource prefix="/icons">`:
 
@@ -318,87 +317,87 @@ All theme state and design tokens are managed by `ui::Theme::instance()` (`theme
 
 ### `ui::Theme` Singleton API (`theme/theme.h`)
 
-| Method / Signal | Signature | Description |
-| :--- | :--- | :--- |
-| `instance()` | `static Theme &instance()` | Accesses the global theme singleton. |
-| `mode()` | `ThemeMode mode() const` | Returns current mode (`ThemeMode::Light`, `ThemeMode::Dark`, `ThemeMode::System`). |
-| `isDark()` | `bool isDark() const` | Returns `true` if the effective active theme is Dark. |
-| `isSystemDark()` | `bool isSystemDark() const` | Detects whether the host OS is currently using a dark color scheme. |
-| `setMode()` | `void setMode(ThemeMode mode)` | Sets the theme mode and emits `themeChanged` if the effective appearance changed. |
-| `toggleMode()` | `void toggleMode()` | Toggles directly between `ThemeMode::Light` and `ThemeMode::Dark`. |
-| `colors()` | `const ColorTokens &colors() const` | Returns the active `ColorTokens` palette (Light or Dark). |
-| `radius()` | `const RadiusTokens &radius() const` | Returns the `RadiusTokens` struct. |
-| `spacing()` | `const SpacingTokens &spacing() const` | Returns the `SpacingTokens` struct. |
-| `typography()` | `const TypographyTokens &typography() const` | Returns the `TypographyTokens` struct. |
-| `setPrimaryColor()` | `void setPrimaryColor(const QColor &primary, const QColor &primaryForeground = QColor())` | Overrides the brand primary & focus ring color at runtime and emits `themeChanged`. |
-| `setFontFamily()` | `void setFontFamily(const QString &fontFamily)` | Overrides the global CSS-style font stack and emits `themeChanged`. |
-| `themeChanged` | `void themeChanged(ui::ThemeMode mode)` | Signal emitted whenever theme mode, OS dark mode, brand color, or font stack changes. |
+| Method / Signal     | Signature                                                                                 | Description                                                                           |
+| :------------------ | :---------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ |
+| `instance()`        | `static Theme &instance()`                                                                | Accesses the global theme singleton.                                                  |
+| `mode()`            | `ThemeMode mode() const`                                                                  | Returns current mode (`ThemeMode::Light`, `ThemeMode::Dark`, `ThemeMode::System`).    |
+| `isDark()`          | `bool isDark() const`                                                                     | Returns `true` if the effective active theme is Dark.                                 |
+| `isSystemDark()`    | `bool isSystemDark() const`                                                               | Detects whether the host OS is currently using a dark color scheme.                   |
+| `setMode()`         | `void setMode(ThemeMode mode)`                                                            | Sets the theme mode and emits `themeChanged` if the effective appearance changed.     |
+| `toggleMode()`      | `void toggleMode()`                                                                       | Toggles directly between `ThemeMode::Light` and `ThemeMode::Dark`.                    |
+| `colors()`          | `const ColorTokens &colors() const`                                                       | Returns the active `ColorTokens` palette (Light or Dark).                             |
+| `radius()`          | `const RadiusTokens &radius() const`                                                      | Returns the `RadiusTokens` struct.                                                    |
+| `spacing()`         | `const SpacingTokens &spacing() const`                                                    | Returns the `SpacingTokens` struct.                                                   |
+| `typography()`      | `const TypographyTokens &typography() const`                                              | Returns the `TypographyTokens` struct.                                                |
+| `setPrimaryColor()` | `void setPrimaryColor(const QColor &primary, const QColor &primaryForeground = QColor())` | Overrides the brand primary & focus ring color at runtime and emits `themeChanged`.   |
+| `setFontFamily()`   | `void setFontFamily(const QString &fontFamily)`                                           | Overrides the global CSS-style font stack and emits `themeChanged`.                   |
+| `themeChanged`      | `void themeChanged(ui::ThemeMode mode)`                                                   | Signal emitted whenever theme mode, OS dark mode, brand color, or font stack changes. |
 
 ### `ui::ColorTokens` (`theme/tokens.h` — All 26 Semantic Fields)
 
-| Token Field | Light Default | Dark Default | Semantic Role |
-| :--- | :--- | :--- | :--- |
-| `background` | `#ffffff` | `#09090b` | Primary window and page canvas background |
-| `foreground` | `#09090b` | `#fafafa` | Primary body text and heading color |
-| `card` | `#ffffff` | `#18181b` | Elevated card surface (`ui::Card`, `ui::Table`, `ui::EmptyState`) |
-| `cardForeground` | `#09090b` | `#fafafa` | Text rendered directly on `card` surfaces |
-| `popover` | `#ffffff` | `#18181b` | Floating overlay surface (`ui::Popover`, `ui::Menu`, `ui::Toast`, `ui::Combobox` popup) |
-| `popoverForeground` | `#09090b` | `#fafafa` | Text inside floating overlays and menus |
-| `primary` | `#9b44f9` | `#a78bfa` | Primary brand accent (`ButtonVariant::Primary`, active switches, sliders, links) |
-| `primaryForeground` | `#ffffff` | `#09090b` | High-contrast text/icons on top of `primary` surfaces |
-| `secondary` | `#f4f4f5` | `#27272a` | Subtle secondary surface (`ButtonVariant::Secondary`, `BadgeVariant::Secondary`) |
-| `secondaryForeground` | `#09090b` | `#fafafa` | Text on top of `secondary` surfaces |
-| `muted` | `#f4f4f5` | `#27272a` | Muted background tracks (`Segmented` tabs, `Progress` track, disabled fills) |
-| `mutedForeground` | `#71717a` | `#a1a1aa` | De-emphasized text, placeholders, captions, and secondary icons |
-| `accent` | `#f4f4f5` | `#27272a` | Hover highlight surface for ghost buttons, menu items, and sidebar rows |
-| `accentForeground` | `#09090b` | `#fafafa` | Text/icons on hovered `accent` items |
-| `destructive` | `#ef4444` | `#ef4444` | Danger actions, validation error borders, and error text |
-| `destructiveForeground` | `#ffffff` | `#ffffff` | Text on `ButtonVariant::Destructive` and `BadgeVariant::Destructive` |
-| `border` | `#e4e4e7` | `#27272a` | Hairline container, card, table, and separator borders |
-| `input` | `#e4e4e7` | `#27272a` | Default resting border color for form controls (`Input`, `Select`, `Textarea`) |
-| `ring` | `#9b44f9` | `#a78bfa` | Keyboard focus ring and active input border highlight |
-| `success` | `#15803d` | `#4ade80` | Success status accent border/icon (`AlertVariant::Success`, `ToastVariant::Success`) |
-| `successForeground` | `#166534` | `#bbf7d0` | Text rendered on `successSurface` |
-| `successSurface` | `#f0fdf4` | `#052e16` | Subtle tinted background surface for success alerts |
-| `warning` | `#a16207` | `#facc15` | Warning status accent border/icon (`AlertVariant::Warning`, `ToastVariant::Warning`) |
-| `warningForeground` | `#854d0e` | `#fef08a` | Text rendered on `warningSurface` |
-| `warningSurface` | `#fefce8` | `#422006` | Subtle tinted background surface for warning alerts |
-| `info` | `#0369a1` | `#38bdf8` | Informational status accent border/icon (`AlertVariant::Info`) |
-| `infoForeground` | `#075985` | `#bae6fd` | Text rendered on `infoSurface` |
-| `infoSurface` | `#f0f9ff` | `#082f49` | Subtle tinted background surface for informational alerts |
+| Token Field             | Light Default | Dark Default | Semantic Role                                                                           |
+| :---------------------- | :------------ | :----------- | :-------------------------------------------------------------------------------------- |
+| `background`            | `#ffffff`     | `#09090b`    | Primary window and page canvas background                                               |
+| `foreground`            | `#09090b`     | `#fafafa`    | Primary body text and heading color                                                     |
+| `card`                  | `#ffffff`     | `#18181b`    | Elevated card surface (`ui::Card`, `ui::Table`, `ui::EmptyState`)                       |
+| `cardForeground`        | `#09090b`     | `#fafafa`    | Text rendered directly on `card` surfaces                                               |
+| `popover`               | `#ffffff`     | `#18181b`    | Floating overlay surface (`ui::Popover`, `ui::Menu`, `ui::Toast`, `ui::Combobox` popup) |
+| `popoverForeground`     | `#09090b`     | `#fafafa`    | Text inside floating overlays and menus                                                 |
+| `primary`               | `#9b44f9`     | `#a78bfa`    | Primary brand accent (`ButtonVariant::Primary`, active switches, sliders, links)        |
+| `primaryForeground`     | `#ffffff`     | `#09090b`    | High-contrast text/icons on top of `primary` surfaces                                   |
+| `secondary`             | `#f4f4f5`     | `#27272a`    | Subtle secondary surface (`ButtonVariant::Secondary`, `BadgeVariant::Secondary`)        |
+| `secondaryForeground`   | `#09090b`     | `#fafafa`    | Text on top of `secondary` surfaces                                                     |
+| `muted`                 | `#f4f4f5`     | `#27272a`    | Muted background tracks (`Segmented` tabs, `Progress` track, disabled fills)            |
+| `mutedForeground`       | `#71717a`     | `#a1a1aa`    | De-emphasized text, placeholders, captions, and secondary icons                         |
+| `accent`                | `#f4f4f5`     | `#27272a`    | Hover highlight surface for ghost buttons, menu items, and sidebar rows                 |
+| `accentForeground`      | `#09090b`     | `#fafafa`    | Text/icons on hovered `accent` items                                                    |
+| `destructive`           | `#ef4444`     | `#ef4444`    | Danger actions, validation error borders, and error text                                |
+| `destructiveForeground` | `#ffffff`     | `#ffffff`    | Text on `ButtonVariant::Destructive` and `BadgeVariant::Destructive`                    |
+| `border`                | `#e4e4e7`     | `#27272a`    | Hairline container, card, table, and separator borders                                  |
+| `input`                 | `#e4e4e7`     | `#27272a`    | Default resting border color for form controls (`Input`, `Select`, `Textarea`)          |
+| `ring`                  | `#9b44f9`     | `#a78bfa`    | Keyboard focus ring and active input border highlight                                   |
+| `success`               | `#15803d`     | `#4ade80`    | Success status accent border/icon (`AlertVariant::Success`, `ToastVariant::Success`)    |
+| `successForeground`     | `#166534`     | `#bbf7d0`    | Text rendered on `successSurface`                                                       |
+| `successSurface`        | `#f0fdf4`     | `#052e16`    | Subtle tinted background surface for success alerts                                     |
+| `warning`               | `#a16207`     | `#facc15`    | Warning status accent border/icon (`AlertVariant::Warning`, `ToastVariant::Warning`)    |
+| `warningForeground`     | `#854d0e`     | `#fef08a`    | Text rendered on `warningSurface`                                                       |
+| `warningSurface`        | `#fefce8`     | `#422006`    | Subtle tinted background surface for warning alerts                                     |
+| `info`                  | `#0369a1`     | `#38bdf8`    | Informational status accent border/icon (`AlertVariant::Info`)                          |
+| `infoForeground`        | `#075985`     | `#bae6fd`    | Text rendered on `infoSurface`                                                          |
+| `infoSurface`           | `#f0f9ff`     | `#082f49`    | Subtle tinted background surface for informational alerts                               |
 
 ### `ui::RadiusTokens` & `ui::SpacingTokens` (`theme/tokens.h`)
 
-| `RadiusTokens` Field | Value (`px`) | Typical Usage | `SpacingTokens` Field | Value (`px`) |
-| :--- | :--- | :--- | :--- | :--- |
-| `none` | `0` | Flush edges, square cells | `space0` | `0` |
-| `sm` | `4` | Small buttons, checkboxes, inner tabs | `space1` | `4` |
-| `md` | `6` | Inputs, selects, comboboxes, default buttons | `space2` | `8` |
-| `lg` | `8` | Popovers, alerts, toasts, cards | `space3` | `12` |
-| `xl` | `12` | Modal dialogs, large feature cards | `space4` | `16` |
-| `full` | `9999` | Pills (`Badge`, `Switch`, `Avatar`) | `space5` | `20` |
-| — | — | — | `space6` | `24` |
-| — | — | — | `space8` | `32` |
-| — | — | — | `space10` | `40` |
-| — | — | — | `space12` | `48` |
+| `RadiusTokens` Field | Value (`px`) | Typical Usage                                | `SpacingTokens` Field | Value (`px`) |
+| :------------------- | :----------- | :------------------------------------------- | :-------------------- | :----------- |
+| `none`               | `0`          | Flush edges, square cells                    | `space0`              | `0`          |
+| `sm`                 | `4`          | Small buttons, checkboxes, inner tabs        | `space1`              | `4`          |
+| `md`                 | `6`          | Inputs, selects, comboboxes, default buttons | `space2`              | `8`          |
+| `lg`                 | `8`          | Popovers, alerts, toasts, cards              | `space3`              | `12`         |
+| `xl`                 | `12`         | Modal dialogs, large feature cards           | `space4`              | `16`         |
+| `full`               | `9999`       | Pills (`Badge`, `Switch`, `Avatar`)          | `space5`              | `20`         |
+| —                    | —            | —                                            | `space6`              | `24`         |
+| —                    | —            | —                                            | `space8`              | `32`         |
+| —                    | —            | —                                            | `space10`             | `40`         |
+| —                    | —            | —                                            | `space12`             | `48`         |
 
 ### `ui::TypographyTokens` (`theme/tokens.h`)
 
-| Member / Method | Default / Signature | Description |
-| :--- | :--- | :--- |
-| `fontFamily` | `"Segoe UI, Inter, -apple-system, Roboto, sans-serif"` | Comma-separated fallback font stack split via `QFont::setFamilies()`. |
-| `rootPx` | `16` | Base pixel size for `1.0rem` (`remPx(double)`). |
-| `sizeXs` .. `size3Xl` | `sizeXs=11`, `sizeSm=12`, `sizeBase=14`, `sizeLg=16`, `sizeXl=18`, `size2Xl=24`, `size3Xl=30` | Standard pixel font scale. |
-| `font(px, weight)` | `QFont font(int pixelSize, QFont::Weight weight = QFont::Normal) const` | Builds a `QFont` configured with `fontFamily`, pixel size, and weight. |
-| `fontRem(rem, weight)` | `QFont fontRem(double rem, QFont::Weight weight = QFont::Normal) const` | Builds a `QFont` scaled relative to `rootPx` (e.g., `0.875rem` = `14px`). |
+| Member / Method        | Default / Signature                                                                           | Description                                                               |
+| :--------------------- | :-------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------ |
+| `fontFamily`           | `"Segoe UI, Inter, -apple-system, Roboto, sans-serif"`                                        | Comma-separated fallback font stack split via `QFont::setFamilies()`.     |
+| `rootPx`               | `16`                                                                                          | Base pixel size for `1.0rem` (`remPx(double)`).                           |
+| `sizeXs` .. `size3Xl`  | `sizeXs=11`, `sizeSm=12`, `sizeBase=14`, `sizeLg=16`, `sizeXl=18`, `size2Xl=24`, `size3Xl=30` | Standard pixel font scale.                                                |
+| `font(px, weight)`     | `QFont font(int pixelSize, QFont::Weight weight = QFont::Normal) const`                       | Builds a `QFont` configured with `fontFamily`, pixel size, and weight.    |
+| `fontRem(rem, weight)` | `QFont fontRem(double rem, QFont::Weight weight = QFont::Normal) const`                       | Builds a `QFont` scaled relative to `rootPx` (e.g., `0.875rem` = `14px`). |
 
 ### Utility Helpers (`StyleHelper`, `AnimationHelper`, `Icon`)
 
-| Class & Header | Static Methods / Constants |
-| :--- | :--- |
-| `ui::StyleHelper` (`theme/style_helper.h`) | `toHexString(c)` (`#rrggbb`), `toRgbaString(c)` (`rgba(r, g, b, a)`), `withAlpha(c, int 0..255)`, `withAlphaF(c, qreal 0..1)`, `lighten(c, amount=10)`, `darken(c, amount=10)`, `hoverColor(c, isDark)`, `tint(surface, accent, ratio)` |
-| `ui::AnimationHelper` (`theme/animation_helper.h`) | `DurationInstant = 0`, `DurationFast = 150`, `DurationNormal = 200`, `DurationSlow = 300`, `standardEasing()` (`OutCubic`), `smoothEasing()` (`InOutQuad`) |
-| `ui::Icon` (`theme/icon_helper.h`) | `Icon::get(resourcePath, color, size = QSize(20, 20))` (`QIcon`), `Icon::pixmap(resourcePath, color, size)` (`QPixmap`), `Icon::pixmap(resourcePath, color, width, height)` (`QPixmap`) |
+| Class & Header                                     | Static Methods / Constants                                                                                                                                                                                                              |
+| :------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ui::StyleHelper` (`theme/style_helper.h`)         | `toHexString(c)` (`#rrggbb`), `toRgbaString(c)` (`rgba(r, g, b, a)`), `withAlpha(c, int 0..255)`, `withAlphaF(c, qreal 0..1)`, `lighten(c, amount=10)`, `darken(c, amount=10)`, `hoverColor(c, isDark)`, `tint(surface, accent, ratio)` |
+| `ui::AnimationHelper` (`theme/animation_helper.h`) | `DurationInstant = 0`, `DurationFast = 150`, `DurationNormal = 200`, `DurationSlow = 300`, `standardEasing()` (`OutCubic`), `smoothEasing()` (`InOutQuad`)                                                                              |
+| `ui::Icon` (`theme/icon_helper.h`)                 | `Icon::get(resourcePath, color, size = QSize(20, 20))` (`QIcon`), `Icon::pixmap(resourcePath, color, size)` (`QPixmap`), `Icon::pixmap(resourcePath, color, width, height)` (`QPixmap`)                                                 |
 
 ---
 
@@ -406,40 +405,40 @@ All theme state and design tokens are managed by `ui::Theme::instance()` (`theme
 
 ### Component Selection Matrix
 
-| # | Component | Header | Base Class | Variants / Enums | Key Methods & Signals |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | `ui::Accordion` | `components/accordion.h` | `QWidget` | — | `setTitle`, `setExpanded(bool, animated)`, `toggleExpanded()`, `setContentWidget(QWidget*)`, `toggled(bool)` |
-| 2 | `ui::Alert` | `components/alert.h` | `QFrame` | `AlertVariant` (`Info`, `Success`, `Warning`, `Destructive`) | `setTitle`, `setDescription`, `setVariant` |
-| 3 | `ui::Avatar` | `components/avatar.h` | `QWidget` | `AvatarSize` (`Small`, `Default`, `Large`), `AvatarStatus` (`None`, `Online`, `Offline`, `Busy`, `Away`) | `setInitials`, `setImage(QPixmap)`, `setSize`, `setStatus` |
-| 4 | `ui::Badge` | `components/badge.h` | `QLabel` | `BadgeVariant` (`Default`, `Secondary`, `Outline`, `Destructive`) | `setVariant`, `setText` |
-| 5 | `ui::Button` | `components/button.h` | `QPushButton` | `ButtonVariant` (`Primary`, `Secondary`, `Outline`, `Ghost`, `Destructive`, `Link`), `ButtonSize` (`Small`, `Default`, `Large`, `Icon`) | `setVariant`, `setSize`, `setLoading(bool)`, `setLoadingText(QString)`, `clicked()` |
-| 6 | `ui::Card` | `components/card.h` | `QFrame` | — | `setTitle`, `setDescription`, `contentLayout()`, `footerLayout()`, `setContentWidget`, `setFooterWidget` |
-| 7 | `ui::Checkbox` | `components/checkbox.h` | `QCheckBox` | — | `setError(bool)`, `hasError()`, `setChecked(bool)`, `setTristate(bool)`, `toggled(bool)` |
-| 8 | `ui::Combobox` | `components/combobox.h` | `QWidget` | — | `setItems(QStringList)`, `addItem(text, data)`, `setCurrentIndex`, `currentText()`, `currentData()`, `setPlaceholderText`, `setError(bool)`, `currentIndexChanged(int)` |
-| 9 | `ui::Dialog` | `components/dialog.h` | `QDialog` | — | `Dialog::confirm(...)`, `Dialog::info(...)`, `setTitle`, `setDescription`, `setContentWidget`, `setConfirmText`, `setCancelText`, `setDestructive(bool)` |
-| 10 | `ui::EmptyState` | `components/empty_state.h` | `QFrame` | — | `setTitle`, `setDescription`, `setIcon(QIcon)`, `setActionText(QString)`, `actionButton()`, `actionTriggered()` |
-| 11 | `ui::FormField` | `components/form_field.h` | `QWidget` | — | `setLabel`, `setRequired(bool)`, `setDescription`, `setError(QString)`, `clearError()`, `setControl(QWidget*)` |
-| 12 | `ui::Input` | `components/input.h` | `QWidget` | — | `text()`, `setText`, `setPlaceholderText`, `setPrefixText`, `setSuffixText`, `setClearButtonEnabled(bool)`, `setReadOnly(bool)`, `setError(bool)`, `textChanged(QString)` |
-| 13 | `ui::Menu` / `DropdownMenu` / `ContextMenu` | `components/menu.h` | `QMenu` | Aliases: `DropdownMenu`, `ContextMenu` | `addAction`, `addSeparator`, `addMenu`, `popup(QPoint)` |
-| 14 | `ui::NumberInput` | `components/number_input.h` | `QSpinBox` | — | `setRange(int, int)`, `setValue(int)`, `setSingleStep(int)`, `setPrefix`, `setSuffix`, `setError(bool)`, `valueChanged(int)` |
-| 15 | `ui::DecimalInput` | `components/number_input.h` | `QDoubleSpinBox` | — | `setDecimals(int)`, `setRange(double, double)`, `setSingleStep(double)`, `setValue(double)`, `setError(bool)`, `valueChanged(double)` |
-| 16 | `ui::Popover` | `components/popover.h` | `QFrame` | — | `contentLayout()`, `openFor(QWidget *anchor)`, `closePopover()`, `opened()`, `closed()` |
-| 17 | `ui::Progress` | `components/progress.h` | `QWidget` | `ProgressSize` (`Small`, `Default`, `Large`) | `setValue(int, animated)`, `setRange(min, max)`, `setIndeterminate(bool)`, `setSize(ProgressSize)` |
-| 18 | `ui::RadioGroup` | `components/radio_group.h` | `QWidget` | `Qt::Orientation` (`Vertical`, `Horizontal`) | `addOption(text, id)`, `setCheckedId(int)`, `checkedId()`, `setOrientation`, `selectionChanged(int)` |
-| 19 | `ui::ScrollArea` | `components/scroll_area.h` | `QScrollArea` | — | `setWidget(QWidget*)`, `setWidgetResizable(bool)` |
-| 20 | `ui::Select` | `components/select.h` | `QComboBox` | — | `addItems(QStringList)`, `setCurrentIndex(int)`, `currentText()`, `currentIndexChanged(int)` |
-| 21 | `ui::Separator` | `components/separator.h` | `QFrame` | `Qt::Orientation` (`Horizontal`, `Vertical`) | `setOrientation(Qt::Orientation)` |
-| 22 | `ui::Sidebar` | `components/sidebar.h` | `QFrame` | — | `setTitle(title, icon)`, `addItem(text, icon, id)`, `setCurrentIndex(int)`, `setCollapsed(bool, animated)`, `toggleCollapsed()`, `setFooterWidget(QWidget*)`, `itemSelected(int id, int index)` |
-| 23 | `ui::Slider` | `components/slider.h` | `QSlider` | `Qt::Orientation` (`Horizontal`, `Vertical`) | `setRange(int, int)`, `setValue(int)`, `valueChanged(int)` |
-| 24 | `ui::Spinner` | `components/spinner.h` | `QWidget` | — | `setSpinnerSize(int)`, `setColor(QColor)`, `start()`, `stop()`, `isSpinning()` |
-| 25 | `ui::Splitter` | `components/splitter.h` | `QSplitter` | `Qt::Orientation` (`Horizontal`, `Vertical`) | `addWidget(QWidget*)`, `setSizes(QList<int>)`, `setStretchFactor(int, int)` |
-| 26 | `ui::Switch` | `components/switch.h` | `QAbstractButton` | — | `setChecked(bool)`, `isChecked()`, `toggled(bool)` |
-| 27 | `ui::Table` | `components/table.h` | `QTableWidget` | — | `setRowCount`, `setColumnCount`, `setHorizontalHeaderLabels`, `setItem(row, col, item)` |
-| 28 | `ui::Tabs` | `components/tabs.h` | `QWidget` | `TabVariant` (`Underline`, `Segmented`) | `setVariant(TabVariant)`, `addTab(text, icon, page)`, `setCurrentIndex(int)`, `widget(int)`, `currentChanged(int)` |
-| 29 | `ui::Textarea` | `components/textarea.h` | `QPlainTextEdit` | — | `setPlaceholderText`, `toPlainText()`, `setPlainText`, `setError(bool)`, `hasError()` |
-| 30 | `ui::Toast` | `components/toast.h` | `QFrame` | `ToastVariant` (`Default`, `Success`, `Warning`, `Destructive`) | `Toast::show(parent, title, description, variant, durationMs)`, `dismiss()` |
-| 31 | `ui::Tooltip` | `components/tooltip.h` | Utility class | — | `Tooltip::attach(widget, text)`, `Tooltip::applyGlobalStyle()` |
-| — | `ui::DemoPage` | `demo/demo_page.h` | `QWidget` | — | `DemoPage(QWidget *parent = nullptr)` — Full interactive 30-component showcase |
+| #    | Component                                   | Header                      | Base Class        | Variants / Enums                                                                                                                        | Key Methods & Signals                                                                                                                                                                           |
+| :--- | :------------------------------------------ | :-------------------------- | :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | `ui::Accordion`                             | `components/accordion.h`    | `QWidget`         | —                                                                                                                                       | `setTitle`, `setExpanded(bool, animated)`, `toggleExpanded()`, `setContentWidget(QWidget*)`, `toggled(bool)`                                                                                    |
+| 2    | `ui::Alert`                                 | `components/alert.h`        | `QFrame`          | `AlertVariant` (`Info`, `Success`, `Warning`, `Destructive`)                                                                            | `setTitle`, `setDescription`, `setVariant`                                                                                                                                                      |
+| 3    | `ui::Avatar`                                | `components/avatar.h`       | `QWidget`         | `AvatarSize` (`Small`, `Default`, `Large`), `AvatarStatus` (`None`, `Online`, `Offline`, `Busy`, `Away`)                                | `setInitials`, `setImage(QPixmap)`, `setSize`, `setStatus`                                                                                                                                      |
+| 4    | `ui::Badge`                                 | `components/badge.h`        | `QLabel`          | `BadgeVariant` (`Default`, `Secondary`, `Outline`, `Destructive`)                                                                       | `setVariant`, `setText`                                                                                                                                                                         |
+| 5    | `ui::Button`                                | `components/button.h`       | `QPushButton`     | `ButtonVariant` (`Primary`, `Secondary`, `Outline`, `Ghost`, `Destructive`, `Link`), `ButtonSize` (`Small`, `Default`, `Large`, `Icon`) | `setVariant`, `setSize`, `setLoading(bool)`, `setLoadingText(QString)`, `clicked()`                                                                                                             |
+| 6    | `ui::Card`                                  | `components/card.h`         | `QFrame`          | —                                                                                                                                       | `setTitle`, `setDescription`, `contentLayout()`, `footerLayout()`, `setContentWidget`, `setFooterWidget`                                                                                        |
+| 7    | `ui::Checkbox`                              | `components/checkbox.h`     | `QCheckBox`       | —                                                                                                                                       | `setError(bool)`, `hasError()`, `setChecked(bool)`, `setTristate(bool)`, `toggled(bool)`                                                                                                        |
+| 8    | `ui::Combobox`                              | `components/combobox.h`     | `QWidget`         | —                                                                                                                                       | `setItems(QStringList)`, `addItem(text, data)`, `setCurrentIndex`, `currentText()`, `currentData()`, `setPlaceholderText`, `setError(bool)`, `currentIndexChanged(int)`                         |
+| 9    | `ui::Dialog`                                | `components/dialog.h`       | `QDialog`         | —                                                                                                                                       | `Dialog::confirm(...)`, `Dialog::info(...)`, `setTitle`, `setDescription`, `setContentWidget`, `setConfirmText`, `setCancelText`, `setDestructive(bool)`                                        |
+| 10   | `ui::EmptyState`                            | `components/empty_state.h`  | `QFrame`          | —                                                                                                                                       | `setTitle`, `setDescription`, `setIcon(QIcon)`, `setActionText(QString)`, `actionButton()`, `actionTriggered()`                                                                                 |
+| 11   | `ui::FormField`                             | `components/form_field.h`   | `QWidget`         | —                                                                                                                                       | `setLabel`, `setRequired(bool)`, `setDescription`, `setError(QString)`, `clearError()`, `setControl(QWidget*)`                                                                                  |
+| 12   | `ui::Input`                                 | `components/input.h`        | `QWidget`         | —                                                                                                                                       | `text()`, `setText`, `setPlaceholderText`, `setPrefixText`, `setSuffixText`, `setClearButtonEnabled(bool)`, `setReadOnly(bool)`, `setError(bool)`, `textChanged(QString)`                       |
+| 13   | `ui::Menu` / `DropdownMenu` / `ContextMenu` | `components/menu.h`         | `QMenu`           | Aliases: `DropdownMenu`, `ContextMenu`                                                                                                  | `addAction`, `addSeparator`, `addMenu`, `popup(QPoint)`                                                                                                                                         |
+| 14   | `ui::NumberInput`                           | `components/number_input.h` | `QSpinBox`        | —                                                                                                                                       | `setRange(int, int)`, `setValue(int)`, `setSingleStep(int)`, `setPrefix`, `setSuffix`, `setError(bool)`, `valueChanged(int)`                                                                    |
+| 15   | `ui::DecimalInput`                          | `components/number_input.h` | `QDoubleSpinBox`  | —                                                                                                                                       | `setDecimals(int)`, `setRange(double, double)`, `setSingleStep(double)`, `setValue(double)`, `setError(bool)`, `valueChanged(double)`                                                           |
+| 16   | `ui::Popover`                               | `components/popover.h`      | `QFrame`          | —                                                                                                                                       | `contentLayout()`, `openFor(QWidget *anchor)`, `closePopover()`, `opened()`, `closed()`                                                                                                         |
+| 17   | `ui::Progress`                              | `components/progress.h`     | `QWidget`         | `ProgressSize` (`Small`, `Default`, `Large`)                                                                                            | `setValue(int, animated)`, `setRange(min, max)`, `setIndeterminate(bool)`, `setSize(ProgressSize)`                                                                                              |
+| 18   | `ui::RadioGroup`                            | `components/radio_group.h`  | `QWidget`         | `Qt::Orientation` (`Vertical`, `Horizontal`)                                                                                            | `addOption(text, id)`, `setCheckedId(int)`, `checkedId()`, `setOrientation`, `selectionChanged(int)`                                                                                            |
+| 19   | `ui::ScrollArea`                            | `components/scroll_area.h`  | `QScrollArea`     | —                                                                                                                                       | `setWidget(QWidget*)`, `setWidgetResizable(bool)`                                                                                                                                               |
+| 20   | `ui::Select`                                | `components/select.h`       | `QComboBox`       | —                                                                                                                                       | `addItems(QStringList)`, `setCurrentIndex(int)`, `currentText()`, `currentIndexChanged(int)`                                                                                                    |
+| 21   | `ui::Separator`                             | `components/separator.h`    | `QFrame`          | `Qt::Orientation` (`Horizontal`, `Vertical`)                                                                                            | `setOrientation(Qt::Orientation)`                                                                                                                                                               |
+| 22   | `ui::Sidebar`                               | `components/sidebar.h`      | `QFrame`          | —                                                                                                                                       | `setTitle(title, icon)`, `addItem(text, icon, id)`, `setCurrentIndex(int)`, `setCollapsed(bool, animated)`, `toggleCollapsed()`, `setFooterWidget(QWidget*)`, `itemSelected(int id, int index)` |
+| 23   | `ui::Slider`                                | `components/slider.h`       | `QSlider`         | `Qt::Orientation` (`Horizontal`, `Vertical`)                                                                                            | `setRange(int, int)`, `setValue(int)`, `valueChanged(int)`                                                                                                                                      |
+| 24   | `ui::Spinner`                               | `components/spinner.h`      | `QWidget`         | —                                                                                                                                       | `setSpinnerSize(int)`, `setColor(QColor)`, `start()`, `stop()`, `isSpinning()`                                                                                                                  |
+| 25   | `ui::Splitter`                              | `components/splitter.h`     | `QSplitter`       | `Qt::Orientation` (`Horizontal`, `Vertical`)                                                                                            | `addWidget(QWidget*)`, `setSizes(QList<int>)`, `setStretchFactor(int, int)`                                                                                                                     |
+| 26   | `ui::Switch`                                | `components/switch.h`       | `QAbstractButton` | —                                                                                                                                       | `setChecked(bool)`, `isChecked()`, `toggled(bool)`                                                                                                                                              |
+| 27   | `ui::Table`                                 | `components/table.h`        | `QTableWidget`    | —                                                                                                                                       | `setRowCount`, `setColumnCount`, `setHorizontalHeaderLabels`, `setItem(row, col, item)`                                                                                                         |
+| 28   | `ui::Tabs`                                  | `components/tabs.h`         | `QWidget`         | `TabVariant` (`Underline`, `Segmented`)                                                                                                 | `setVariant(TabVariant)`, `addTab(text, icon, page)`, `setCurrentIndex(int)`, `widget(int)`, `currentChanged(int)`                                                                              |
+| 29   | `ui::Textarea`                              | `components/textarea.h`     | `QPlainTextEdit`  | —                                                                                                                                       | `setPlaceholderText`, `toPlainText()`, `setPlainText`, `setError(bool)`, `hasError()`                                                                                                           |
+| 30   | `ui::Toast`                                 | `components/toast.h`        | `QFrame`          | `ToastVariant` (`Default`, `Success`, `Warning`, `Destructive`)                                                                         | `Toast::show(parent, title, description, variant, durationMs)`, `dismiss()`                                                                                                                     |
+| 31   | `ui::Tooltip`                               | `components/tooltip.h`      | Utility class     | —                                                                                                                                       | `Tooltip::attach(widget, text)`, `Tooltip::applyGlobalStyle()`                                                                                                                                  |
+| —    | `ui::DemoPage`                              | `demo/demo_page.h`          | `QWidget`         | —                                                                                                                                       | `DemoPage(QWidget *parent = nullptr)` — Full interactive 30-component showcase                                                                                                                  |
 
 ---
 
