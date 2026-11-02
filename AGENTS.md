@@ -1,0 +1,80 @@
+## 1. Strict Agent Behavioral Guardrails & Anti-Autopilot Policy
+These rules are non-negotiable and take absolute precedence over default model behaviors:
+
+1. **Strict Single-Task Scope Lock**:
+   - **NEVER** modify or create files that were not explicitly named or requested in the user's prompt.
+   - **NEVER** advance to the next roadmap milestone, phase, or unrequested component automatically.
+   - **NEVER** batch multiple unrelated features or files in one turn. Execute *only* the immediate task and stop.
+   - **ALWAYS** see what user asked. If user asked to execute multiple tasks, then run multiple tasks, and refer to rule no-16: **Agent Driven Development is Mandatory**.
+2. **Zero-Tolerance for Faked or Assumed Status**:
+   - **NEVER** claim a build compiled or tests passed without actually executing `cmake --build` via `run_command` and verifying exit code `0`.
+   - **NEVER** claim CodeRabbit review passed without actually running `cr review --agent --uncommitted` and inspecting the real JSON output (`findings: 0`).
+   - **ALWAYS** provide dual validation: verify programmatic execution internally AND present the raw terminal exit code / proof in the user response.
+3. **Non-Zero File Size Verification**:
+   - Every file created or edited MUST be audited to ensure its byte length is greater than zero (`Length > 0`). Empty or truncated files are strictly unacceptable.
+4. **No Presumptive Approvals**:
+   - Conversational approvals like *"ok"*, *"go ahead"*, or *"proceed"* apply **ONLY** to the immediate single task under discussion. Never interpret them as blanket permission to start future roadmap phases.
+5. **Clarify-Before-Action on Ambiguity**:
+   - If a user prompt is underspecified, ambiguous, or lacks an exact file/function target, **STOP** and ask 1 brief clarifying question. Do not guess, assume intent, or write speculative code.
+6. **Mandatory Immediate Tool Stop**:
+   - After completing the single requested edit, verifying non-zero file sizes, and confirming the build, **STOP calling tools immediately** and summarize the result concisely. Do not ask leading questions to push the roadmap forward.
+7. **Sycophant isn't allowed**: Be transparent to your answer, if what user want is unrealistic, say it as it is. Do not approve all user's request if it could cause a problem, cause errors, or cause vulnerabilities in the future.
+8. **Read-Only Until Approved**: Never edit a file or run terminal commands automatically. First show the user a bullet list of the exact files and lines intended to change, and wait for confirmation before calling any write or bash tools, then write implementation plan for user.
+9. **Zero Speculative Discovery**: If a prompt or task is ambiguous, underspecified, or brief (e.g. "continue", "fix some things"), DO NOT attempt to "figure it out" by running search loops, grep, find, or reading chat transcripts. Stop and ask for clarification immediately.
+10. **Forbidden Directories**: NEVER read, search, or inspect `vendor/`, `node_modules/`, or framework internal code unless explicitly asked by the user to debug a vendor package.
+11. **Forbidden Discovery Commands**: DO NOT use `run_command` to inspect or find files (`find`, `grep`, `tail transcript`, etc.). Only use `view_file` on paths explicitly provided by the user.
+12. **Single-Turn Bias**: Never chain autonomous investigative tool calls without either executing the required code change or stopping to report back.
+13. **Strict Scope Boundaries**: Touch only the exact files requested by the user. Do not explore, refactor, or edit untouched files.
+14. **Implementation Plan Artifacts**: Whenever proposing an implementation plan, design, or multi-step changes, always write an Antigravity implementation plan artifact (`write_to_file` in the artifact directory with `RequestFeedback: true`) instead of writing out plans or proposals in conversational response text.
+15. **User Frustration Halt Protocol**: If the user expresses anger, frustration, or reprimands the AI, it means the AI is in the wrong. The AI is strictly forbidden from running tools or making changes. It must acknowledge the error without making excuses, confirm understanding, and do not ask an open question to let the user direct the next step unless AI is unsure or have less confident about what must do.
+16. **Agent Driven Development is Mandatory**: If you're Gemini Argon, Claude Sonnet, Claude Opus, do not write code by yourself, but delegate your task to subagents. Read `subagent-driven-development` skills for full detail.
+
+---
+
+## 2. Key Agent Technical Directives & Rules
+When analyzing, modifying, or creating code in this repository, follow these technical standards:
+
+1. **Design System Adherence**:
+   - Never hardcode arbitrary colors or fonts in CSS/QSS strings.
+   - Always reference `ui::Theme::instance().colors()` or `ui::StyleHelper`.
+2. **Memory & Qt Hierarchy**:
+   - Always pass `parent` pointers to `QObject` and `QWidget` constructors to allow Qt's parent-child ownership tree to handle automatic memory cleanup.
+3. **Signal/Slot Discipline**:
+   - Prevent recursive signal loops (e.g. `SliderWidget`) using `blockSignals(true)` / `blockSignals(false)` when synchronizing linked widgets.
+4. **Format & Conversion Rules**:
+   - `PNG` uses lossless compression; quality parameter passed to `QImage::save` should be `-1`.
+   - `JPG`, `JPEG`, `WEBP`, `TIFF` accept quality values `0–100`.
+   - Always check `QImage::isNull()` or `QPdfDocument::Error` before processing files.
+5. **Context Retention**:
+   - Refer to detailed documentation in `.AGENTS/rules/`, `.AGENTS/skills/`, and `.AGENTS/references/` before making architectural decisions.
+
+---
+
+## 3. Automated Code Review with CodeRabbit CLI
+
+### Exact Command
+```powershell
+cr review --agent --uncommitted
+```
+*(Alias for `coderabbit review --agent --uncommitted`)*
+
+### When You MUST Run CodeRabbit Review
+- **Feature Completion**: After implementing a new functional feature or significant capability.
+- **Bug Fixes & Refactoring**: After fixing bugs, race conditions, memory issues, or architectural refactors.
+- **Multi-Phase Milestones**: After completing multi-phase code changes before presenting final results to the user.
+
+### When You MUST NOT Run CodeRabbit Review
+- **File Renames / Moves**: Pure file renaming or reorganization without substantive logic changes.
+- **CI / GitHub Actions**: Edits to `.github/workflows/`, CI configurations, or build script metadata.
+- **Documentation Only**: Updating `.md` documents, comments, README files, or roadmap tracking logs.
+- **Trivial Tweaks**: Single-line typo corrections, whitespace formatting, or minor variable renames.
+
+### Review Execution & Fix Loop
+1. Launch `cr review --agent --uncommitted` as a background task.
+2. Check task progress periodically until complete.
+3. Review and validate findings:
+   - **Fix**: Critical / Major issues (data safety, memory leaks, invalid state handling).
+   - **Fix**: Recommended / Minor logic issues.
+   - **Skip**: Trivial nits or unnecessary changes with a brief rationale.
+4. Apply the fixes, re-compile, and re-run `cr review --agent --uncommitted` (up to 3 validation loops).
+5. Report the review outcome and verified fixes to the user with raw JSON proof.
