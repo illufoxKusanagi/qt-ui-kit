@@ -1,4 +1,7 @@
-﻿#ifndef UI_FORM_FIELD_H
+// Copyright (C) 2025-2026 Arief Satria
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+#ifndef UI_FORM_FIELD_H
 #define UI_FORM_FIELD_H
 
 #include "../theme/theme.h"

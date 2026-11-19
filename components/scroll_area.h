@@ -1,7 +1,13 @@
+// Copyright (C) 2025-2026 Arief Satria
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 #ifndef UI_SCROLL_AREA_H
 #define UI_SCROLL_AREA_H
 
 #include <QScrollArea>
+#include <QString>
+
+class QAbstractScrollArea;
 
 namespace ui {
 
@@ -10,6 +16,9 @@ class ScrollArea : public QScrollArea {
 
 public:
   explicit ScrollArea(QWidget *parent = nullptr);
+
+  static QString scrollBarStyleSheet();
+  static void applyScrollBarStyles(QAbstractScrollArea *area);
 
 private slots:
   void applyThemeStyles();

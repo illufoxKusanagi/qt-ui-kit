@@ -1,3 +1,6 @@
+// Copyright (C) 2025-2026 Arief Satria
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 #include "demo_page.h"
 #include "../components/accordion.h"
 #include "../components/alert.h"

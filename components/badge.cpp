@@ -1,4 +1,7 @@
-﻿#include "badge.h"
+// Copyright (C) 2025-2026 Arief Satria
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+#include "badge.h"
 #include "../theme/style_helper.h"
 
 namespace ui {
